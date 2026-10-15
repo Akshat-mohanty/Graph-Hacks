@@ -518,7 +518,35 @@ SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
       }
     }
 
-    window.onload = loadGraph;
+    const header = document.getElementById('header');
+    const hero = document.getElementById('hero');
+
+    const handleScroll = () => {
+      const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (scrollPos > 20) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+
+      const headerHeight = header ? header.offsetHeight : 70;
+      const heroBottom = hero ? (hero.offsetTop + hero.offsetHeight - headerHeight - 30) : 600;
+
+      if (scrollPos > 20 && scrollPos < heroBottom) {
+        header.classList.add('logo-collapsed');
+      } else {
+        header.classList.remove('logo-collapsed');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll, { passive: true });
+
+    window.onload = () => {
+      loadGraph();
+      handleScroll();
+    };
   </script>
 </body>
 </html>

@@ -224,7 +224,7 @@ button {
   vertical-align: baseline;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 130px;
+  max-width: 240px;
   opacity: 1;
   transform: translateX(0);
   transition: 
@@ -234,7 +234,7 @@ button {
   will-change: max-width, opacity, transform;
 }
 
-/* Collapsed State: Wordmark Collapses into 'A' while within Hero Section */
+/* Collapsed State: Wordmark Collapses into 'S' while within Hero Section */
 .site-header.logo-collapsed .brand-mark {
   gap: 0.5rem;
 }
@@ -252,7 +252,7 @@ button {
 }
 
 .site-header.logo-collapsed .brand-mark:hover .brand-remainder {
-  max-width: 130px;
+  max-width: 240px;
   opacity: 1;
   transform: translateX(0);
   pointer-events: auto;
