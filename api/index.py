@@ -35,22 +35,26 @@ static_dir = os.path.join(base_dir, "static")
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-host = os.getenv("FALKORDB_HOST")
-port = int(os.getenv("FALKORDB_PORT", 53262))
-password = os.getenv("FALKORDB_PASSWORD")
-username = os.getenv("FALKORDB_USERNAME", "falkordb")
+def get_graph():
+    host = os.getenv("FALKORDB_HOST", "")
+    port = int(os.getenv("FALKORDB_PORT", "53262"))
+    password = os.getenv("FALKORDB_PASSWORD", "")
+    username = os.getenv("FALKORDB_USERNAME", "falkordb")
+    db = FalkorDB(
+        host=host,
+        port=port,
+        username=username,
+        password=password,
+        ssl=False,
+        socket_timeout=10,
+    )
+    return db.select_graph("sentinel_fraud_db")
 
-db = FalkorDB(
-    host=host,
-    port=port,
-    username=username,
-    password=password,
-    ssl=False,
-    socket_timeout=10,
-)
-graph = db.select_graph("sentinel_fraud_db")
-
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+def get_gemini_client():
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY environment variable is not configured.")
+    return genai.Client(api_key=api_key)
 
 available_tools = [
     graph_tools.trace_fund_flow,
@@ -79,6 +83,7 @@ RULES:
 
 @app.get("/api/graph")
 def get_graph_data():
+    graph = get_graph()
     nodes_q = "MATCH (n) RETURN id(n) AS internal_id, labels(n)[0] AS label, properties(n) AS props"
     edges_q = "MATCH (s)-[r]->(t) RETURN id(s) AS source, id(t) AS target, type(r) AS type, properties(r) AS props"
     
@@ -182,6 +187,7 @@ def investigate(payload: Dict[str, str]):
         "uncover shared infrastructure or beneficial owners, and take quarantine action if warranted."
     ))
 
+    client = get_gemini_client()
     chat = client.chats.create(
         model="gemini-2.5-flash",
         config=types.GenerateContentConfig(
