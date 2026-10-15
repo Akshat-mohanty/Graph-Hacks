@@ -445,33 +445,27 @@ SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
           edges: {
             arrows: { to: { enabled: true, scaleFactor: 0.8 } },
             font: { face: 'Anthropic Mono, monospace', size: 9, align: 'top' },
-            smooth: { type: 'continuous', roundness: 0.1 }
+            smooth: { type: 'curvedCW', roundness: 0.15 }
           },
           physics: {
-            stabilization: {
-              enabled: true,
-              iterations: 150,
-              updateInterval: 25
-            },
-            barnesHut: {
-              gravitationalConstant: -2000,
-              centralGravity: 0.3,
-              springLength: 95,
-              springConstant: 0.04,
-              damping: 0.09
+            enabled: true,
+            solver: 'forceAtlas2Based',
+            forceAtlas2Based: {
+              gravitationalConstant: -60,
+              centralGravity: 0.012,
+              springLength: 120,
+              springConstant: 0.08,
+              damping: 0.4
             }
           },
           interaction: {
             hover: true,
-            hideEdgesOnDrag: true,
-            hideEdgesOnZoom: true
+            dragNodes: true,
+            dragView: true
           }
         };
         
         network = new vis.Network(container, graphData, options);
-        network.once('stabilizationIterationsDone', function() {
-          network.setOptions({ physics: { enabled: false } });
-        });
       } catch (err) {
         console.error("Failed to load graph:", err);
       } finally {
