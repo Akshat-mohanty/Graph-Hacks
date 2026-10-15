@@ -101,12 +101,13 @@
       background-color: var(--swatch--ivory-light);
       border: 1px solid var(--swatch--slate-faded-20);
       border-radius: var(--radius-sm);
-      padding: 1rem;
+      padding: 1.1rem;
       font-family: var(--font-mono);
       font-size: 0.8125rem;
-      line-height: 1.6;
+      line-height: 1.65;
       color: var(--swatch--slate-dark);
-      resize: none;
+      min-height: 175px;
+      resize: vertical;
       outline: none;
       transition: border-color var(--duration-fast) var(--ease-editorial);
     }
@@ -311,7 +312,7 @@
             
             <div class="editorial-card">
               <span class="card-label">Inbound AML Anomaly Dispatch</span>
-              <textarea id="alert-input" rows="4" class="alert-textarea">CRITICAL ANOMALY ALERT: Account ACC-100 (Acme Corp Payroll) experienced rapid unauthorized outbound fund dispersal totaling over $140,000 across multiple unfamiliar accounts within 15 minutes. Investigate the fund destination, detect if this is a coordinated money-laundering syndicate, uncover shared infrastructure or beneficial owners, and take quarantine action if warranted.</textarea>
+              <textarea id="alert-input" rows="7" class="alert-textarea">CRITICAL ANOMALY ALERT: Account ACC-100 (Acme Corp Payroll) experienced rapid unauthorized outbound fund dispersal totaling over $140,000 across multiple unfamiliar accounts within 15 minutes. Investigate the fund destination, detect if this is a coordinated money-laundering syndicate, uncover shared infrastructure or beneficial owners, and take quarantine action if warranted.</textarea>
               
               <button id="run-btn" onclick="triggerInvestigation()" class="btn btn-primary" style="width: 100%; margin-top: 1rem; border-radius: var(--radius-sm);">
                 <span>Launch Autonomous Graph Investigation</span>
