@@ -10,7 +10,6 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key)
 
-# Expose our graph tools to the Gemini agent
 available_tools = [
     graph_tools.trace_fund_flow,
     graph_tools.detect_cycles,
@@ -53,7 +52,6 @@ def run_investigation(alert_description: str) -> str:
     prompt = f"Investigate this suspicious activity and take appropriate graph action:\n\n{alert_description}"
     response = chat.send_message(prompt)
 
-    # Agent multi-turn tool calling loop
     step = 1
     while response.function_calls:
         for call in response.function_calls:
@@ -62,12 +60,10 @@ def run_investigation(alert_description: str) -> str:
             print(f"🔍 [Agent Step {step}] Invoking Graph Tool: {tool_name}")
             print(f"   Args: {json.dumps(tool_args)}")
 
-            # Execute the tool
             tool_func = getattr(graph_tools, tool_name)
             tool_result = tool_func(**tool_args)
             print(f"   ✓ Tool Output: {str(tool_result)[:180]}...")
 
-            # Send result back to agent
             response = chat.send_message(
                 types.Part.from_function_response(
                     name=tool_name,

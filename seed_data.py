@@ -38,7 +38,6 @@ def seed_database():
 
     print("Ingesting Entities: Accounts, People, Shell Companies, and Devices...")
 
-    # 1. Accounts
     accounts_cypher = """
     CREATE 
       (acc_victim:Account {id: 'ACC-100', owner: 'Acme Corp Payroll', balance: 250000.0, risk_score: 0.1, status: 'ACTIVE'}),
@@ -53,7 +52,6 @@ def seed_database():
     """
     graph.query(accounts_cypher)
 
-    # 2. People & Companies
     entities_cypher = """
     CREATE
       (p_viktor:Person {id: 'P-99', name: 'Viktor Vance', jurisdiction: 'Panama', flagged_pep: true}),
@@ -64,7 +62,6 @@ def seed_database():
     """
     graph.query(entities_cypher)
 
-    # 3. Devices / Digital Fingerprints
     devices_cypher = """
     CREATE
       (dev_syndicate:Device {id: 'DEV-DARK-01', ip: '194.26.29.112', mac_hash: '9f:4a:1b:88:cc:01', user_agent: 'TorBrowser/12.5'}),
@@ -75,7 +72,6 @@ def seed_database():
 
     print("Wiring Relationships & Transactions (Multi-Hop Graph Connections)...")
 
-    # 4. Ownership & Device Logins
     relations_cypher = """
     MATCH (acc_victim:Account {id: 'ACC-100'}), (c_acme:Company {id: 'C-10'}),
           (acc_mule1:Account {id: 'ACC-201'}), (p_dave:Person {id: 'P-21'}),
@@ -92,7 +88,6 @@ def seed_database():
       (p_viktor)-[:BENEFICIAL_OWNER {shares: 100}]->(c_apex),
       (p_viktor)-[:OWNS_ACCOUNT]->(acc_kingpin),
 
-      // Crucial syndicate connection: Mule 1, Mule 2, and Kingpin all share the hidden Tor device!
       (acc_mule1)-[:ACCESSED_VIA {last_login: '2026-10-14 02:15:00'}]->(dev_syndicate),
       (acc_mule2)-[:ACCESSED_VIA {last_login: '2026-10-14 02:22:00'}]->(dev_syndicate),
       (acc_kingpin)-[:ACCESSED_VIA {last_login: '2026-10-14 03:00:00'}]->(dev_syndicate),
@@ -101,7 +96,6 @@ def seed_database():
     """
     graph.query(relations_cypher)
 
-    # 5. Transactions (The Layered Smurfing Ring & Fund Cycling)
     tx_cypher = """
     MATCH (v:Account {id: 'ACC-100'}),
           (m1:Account {id: 'ACC-201'}),
@@ -112,28 +106,22 @@ def seed_database():
           (l1:Account {id: 'ACC-801'}),
           (l2:Account {id: 'ACC-802'})
     CREATE
-      // Step 1: Initial compromised outbound dispersal from Victim to Mules
       (v)-[:TRANSFERRED {tx_id: 'TX-101', amount: 50000.0, timestamp: '2026-10-15 01:00:00'}]->(m1),
       (v)-[:TRANSFERRED {tx_id: 'TX-102', amount: 48000.0, timestamp: '2026-10-15 01:05:00'}]->(m2),
       (v)-[:TRANSFERRED {tx_id: 'TX-103', amount: 45000.0, timestamp: '2026-10-15 01:10:00'}]->(m3),
 
-      // Step 2: Layering into Shell Corporation
       (m1)-[:TRANSFERRED {tx_id: 'TX-201', amount: 47000.0, timestamp: '2026-10-15 02:00:00'}]->(shell),
       (m2)-[:TRANSFERRED {tx_id: 'TX-202', amount: 46000.0, timestamp: '2026-10-15 02:15:00'}]->(shell),
       (m3)-[:TRANSFERRED {tx_id: 'TX-203', amount: 44000.0, timestamp: '2026-10-15 02:30:00'}]->(shell),
 
-      // Step 3: Offshoring to Kingpin
       (shell)-[:TRANSFERRED {tx_id: 'TX-301', amount: 135000.0, timestamp: '2026-10-15 03:00:00'}]->(kingpin),
 
-      // Step 4: Circular Kickback (Smurfing back to Mule 1 to close the loop)
       (kingpin)-[:TRANSFERRED {tx_id: 'TX-401', amount: 15000.0, timestamp: '2026-10-15 03:30:00'}]->(m1),
 
-      // Benign everyday traffic
       (l1)-[:TRANSFERRED {tx_id: 'TX-901', amount: 120.0, timestamp: '2026-10-15 04:00:00'}]->(l2)
     """
     graph.query(tx_cypher)
 
-    # Verification Query
     node_count = graph.query("MATCH (n) RETURN count(n) AS total_nodes").result_set[0][0]
     edge_count = graph.query("MATCH ()-[r]->() RETURN count(r) AS total_edges").result_set[0][0]
     print(f"\n Graph Ingestion COMPLETE!")

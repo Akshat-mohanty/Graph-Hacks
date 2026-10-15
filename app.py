@@ -68,7 +68,6 @@ RULES:
 
 @app.get("/api/graph")
 def get_graph_data():
-    """Returns nodes and edges formatted for Vis.js / Cytoscape graph canvas"""
     nodes_q = "MATCH (n) RETURN id(n) AS internal_id, labels(n)[0] AS label, properties(n) AS props"
     edges_q = "MATCH (s)-[r]->(t) RETURN id(s) AS source, id(t) AS target, type(r) AS type, properties(r) AS props"
     
@@ -82,8 +81,7 @@ def get_graph_data():
         node_id = props.get("id", str(row[0]))
         title_text = f"{label_type}: {node_id}\n" + "\n".join([f"{k}: {v}" for k, v in props.items()])
         
-        # Color coding
-        color = "#6366f1" # default indigo
+        color = "#6366f1"
         if label_type == "Account":
             status = props.get("status", "ACTIVE")
             color = "#ef4444" if status == "FROZEN" else "#3b82f6"

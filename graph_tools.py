@@ -21,10 +21,6 @@ db = FalkorDB(
 graph = db.select_graph("sentinel_fraud_db")
 
 def trace_fund_flow(start_account_id: str, max_depth: int = 4) -> Dict[str, Any]:
-    """
-    Multi-hop Cypher traversal tracing outbound money flows from a suspicious account.
-    Returns the paths, intermediary nodes, and hop count.
-    """
     query = f"""
     MATCH path = (start:Account {{id: '{start_account_id}'}})-[t:TRANSFERRED*1..{max_depth}]->(dest:Account)
     RETURN [n in nodes(path) | {{id: n.id, owner: n.owner, status: n.status}}] AS path_nodes,
@@ -43,9 +39,6 @@ def trace_fund_flow(start_account_id: str, max_depth: int = 4) -> Dict[str, Any]
     return {"start_account": start_account_id, "discovered_paths_count": len(paths), "paths": paths}
 
 def detect_cycles(start_account_id: str, max_depth: int = 5) -> Dict[str, Any]:
-    """
-    Detects circular transaction loops (smurfing/kickbacks) where funds leave and return to the syndicate.
-    """
     query = f"""
     MATCH path = (a:Account {{id: '{start_account_id}'}})-[:TRANSFERRED*2..{max_depth}]->(a)
     RETURN [n in nodes(path) | n.id] AS cycle_account_ids,
@@ -63,10 +56,6 @@ def detect_cycles(start_account_id: str, max_depth: int = 5) -> Dict[str, Any]:
     return {"detected_cycles": cycles, "has_circular_flow": len(cycles) > 0}
 
 def find_shared_infrastructure(account_ids: List[str]) -> Dict[str, Any]:
-    """
-    Discovers co-located infrastructure (devices, IP addresses, beneficial owners)
-    connecting multiple seemingly independent accounts.
-    """
     acc_filter = ", ".join([f"'{acc}'" for acc in account_ids])
     query = f"""
     MATCH (a:Account)-[:ACCESSED_VIA]->(d:Device)<-[:ACCESSED_VIA]-(b:Account)
@@ -84,7 +73,6 @@ def find_shared_infrastructure(account_ids: List[str]) -> Dict[str, Any]:
             "user_agent": row[4]
         })
 
-    # Also check beneficial owners
     bo_query = f"""
     MATCH (a:Account)<-[:OWNS_ACCOUNT]-(c:Company)<-[:BENEFICIAL_OWNER]-(p:Person)-[:OWNS_ACCOUNT]->(b:Account)
     WHERE (a.id IN [{acc_filter}] OR b.id IN [{acc_filter}]) AND a.id <> b.id
@@ -106,10 +94,6 @@ def find_shared_infrastructure(account_ids: List[str]) -> Dict[str, Any]:
     }
 
 def compute_node_risk_centrality(account_id: str) -> Dict[str, Any]:
-    """
-    Computes graph topological metrics (in-degree, out-degree, transfer volume)
-    to identify whether an account acts as a pass-through mule or central aggregator.
-    """
     query = f"""
     MATCH (a:Account {{id: '{account_id}'}})
     OPTIONAL MATCH (in_acc:Account)-[r_in:TRANSFERRED]->(a)
@@ -141,10 +125,6 @@ def compute_node_risk_centrality(account_id: str) -> Dict[str, Any]:
     }
 
 def freeze_and_quarantine_syndicate(account_ids: List[str], reason: str) -> Dict[str, Any]:
-    """
-    AGENT ACTION TOOL:
-    Actively mutates the FalkorDB graph to freeze compromised accounts and record the audit timestamp.
-    """
     acc_filter = ", ".join([f"'{acc}'" for acc in account_ids])
     query = f"""
     MATCH (a:Account)
