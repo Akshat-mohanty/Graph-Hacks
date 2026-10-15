@@ -4,6 +4,7 @@ from typing import Dict, Any, List
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from falkordb import FalkorDB
 from google import genai
@@ -23,6 +24,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 host = os.getenv("FALKORDB_HOST")
 port = int(os.getenv("FALKORDB_PORT", 53262))
@@ -81,23 +84,50 @@ def get_graph_data():
         node_id = props.get("id", str(row[0]))
         title_text = f"{label_type}: {node_id}\n" + "\n".join([f"{k}: {v}" for k, v in props.items()])
         
-        color = "#6366f1"
+        bg_color = "#f0eee6"
+        border_color = "#3d3d3a"
+        text_color = "#141413"
+        
         if label_type == "Account":
             status = props.get("status", "ACTIVE")
-            color = "#ef4444" if status == "FROZEN" else "#3b82f6"
+            if status == "FROZEN":
+                bg_color = "#d97757"
+                border_color = "#c6613f"
+                text_color = "#ffffff"
+            else:
+                bg_color = "#faf9f5"
+                border_color = "#5e5d59"
         elif label_type == "Person":
-            color = "#f59e0b"
+            bg_color = "#ced6bf"
+            border_color = "#3d3d3a"
         elif label_type == "Company":
-            color = "#10b981"
+            bg_color = "#bcd1ca"
+            border_color = "#629987"
         elif label_type == "Device":
-            color = "#8b5cf6"
+            bg_color = "#e8e6dc"
+            border_color = "#d97757"
             
         nodes.append({
             "id": row[0],
-            "label": f"{label_type}\n{node_id}",
+            "label": f"{label_type.upper()}\n{node_id}",
             "title": title_text,
             "group": label_type,
-            "color": color,
+            "color": {
+                "background": bg_color,
+                "border": border_color,
+                "highlight": {
+                    "background": "#d97757",
+                    "border": "#141413"
+                }
+            },
+            "font": {
+                "color": text_color,
+                "face": "Anthropic Sans, system-ui, sans-serif",
+                "size": 11,
+                "multi": "html"
+            },
+            "shape": "box",
+            "borderWidth": 1.5,
             "raw_id": node_id,
             "status": props.get("status", "ACTIVE")
         })
@@ -108,13 +138,24 @@ def get_graph_data():
         props = row[3]
         label = rel_type
         if "amount" in props:
-            label += f"\n${props['amount']:,.0f}"
+            label += f" (${props['amount']:,.0f})"
         edges.append({
             "from": row[0],
             "to": row[1],
             "label": label,
             "arrows": "to",
-            "font": {"size": 10, "align": "middle"}
+            "color": {
+                "color": "rgba(20, 20, 19, 0.25)",
+                "highlight": "#d97757",
+                "hover": "#d97757"
+            },
+            "font": {
+                "size": 9,
+                "align": "middle",
+                "color": "#5e5d59",
+                "face": "Anthropic Mono, monospace",
+                "background": "#faf9f5"
+            }
         })
         
     return {"nodes": nodes, "edges": edges}

@@ -3,111 +3,435 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SentinelGraph — Autonomous Connected-Data Fraud Hunter</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>SENTINELGRAPH — Autonomous Connected-Data Financial Intelligence</title>
+  <meta name="description" content="Autonomous AI financial crime and fraud-investigation agent operating directly over FalkorDB connected graph data for Track 01.">
+  <link rel="stylesheet" href="/static/styles.css">
   <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    .studio-dashboard {
+      padding: clamp(2rem, 4vw, 4rem) 0;
+    }
+    .console-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.95fr);
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 1024px) {
+      .console-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .graph-card-wrapper {
+      background-color: var(--swatch--ivory-medium);
+      border: 1px solid var(--swatch--slate-faded-20);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .graph-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--swatch--slate-faded-10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: rgba(250, 249, 245, 0.6);
+    }
+    .legend-pills {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .legend-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--swatch--slate-medium);
+    }
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      border: 1px solid var(--swatch--slate-dark);
+    }
     #graph-canvas {
-      height: 600px;
-      background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
+      height: 640px;
+      width: 100%;
+      background-color: #faf9f5;
+      position: relative;
+    }
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .editorial-card {
+      background-color: var(--swatch--ivory-medium);
+      border: 1px solid var(--swatch--slate-faded-20);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+    }
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--swatch--clay);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .alert-textarea {
+      width: 100%;
+      background-color: var(--swatch--ivory-light);
+      border: 1px solid var(--swatch--slate-faded-20);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--swatch--slate-dark);
+      resize: none;
+      outline: none;
+      transition: border-color var(--duration-fast) var(--ease-editorial);
+    }
+    .alert-textarea:focus {
+      border-color: var(--swatch--slate-dark);
+    }
+    .steps-log {
+      max-height: 220px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-right: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+    }
+    .step-item {
+      background-color: var(--swatch--ivory-light);
+      border: 1px solid var(--swatch--slate-faded-10);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--swatch--slate-dark);
+      font-weight: 600;
+    }
+    .step-tag {
+      color: var(--swatch--clay);
+    }
+    .dossier-box {
+      background-color: var(--swatch--ivory-light);
+      border: 1px solid var(--swatch--slate-faded-20);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      line-height: 1.65;
+      color: var(--swatch--slate-dark);
+      max-height: 320px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    .loader-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(250, 249, 245, 0.85);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      z-index: 20;
+    }
+    .loader-spinner {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--swatch--slate-faded-20);
+      border-top-color: var(--swatch--clay);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
+<body>
 
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-        <i class="fa-solid fa-shield-halved text-xl"></i>
+  <header class="site-header" id="header">
+    <div class="u-container">
+      <div class="header-inner">
+        <a href="#hero" class="brand-mark" aria-label="SentinelGraph Home">
+          <span class="brand-symbol" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.5L2.5 21.5H21.5L12 2.5ZM12 7.2L17.8 19H6.2L12 7.2Z" fill="currentColor"/>
+              <circle cx="12" cy="14" r="2.2" fill="var(--swatch--clay)"/>
+            </svg>
+          </span>
+          <span class="brand-text">
+            <span class="brand-initial">S</span><span class="brand-remainder">entinelGraph</span>
+          </span>
+        </a>
+
+        <nav class="nav-container" aria-label="Primary Navigation">
+          <ul class="nav-menu">
+            <li><a href="#console" class="nav-link">Intelligence Console</a></li>
+            <li><a href="#architecture" class="nav-link">Graph Schema</a></li>
+            <li><a href="#algorithms" class="nav-link">Cypher Algorithms</a></li>
+            <li><a href="#tracks" class="nav-link">Track 01 Brief</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            <span>FalkorDB Cloud Active</span>
+          </div>
+          <button onclick="reseedGraph()" class="btn btn-secondary" style="padding: 0.45rem 1rem; font-size: 0.8125rem;">
+            Reseed Graph
+          </button>
+        </div>
       </div>
-      <div>
-        <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">
-          SentinelGraph
-        </h1>
-        <p class="text-xs text-slate-400 font-mono">Track 01: Agents That Act on Connected Data | Powered by FalkorDB</p>
-      </div>
-    </div>
-    <div class="flex items-center space-x-3">
-      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-        <span class="w-2 h-2 mr-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        FalkorDB Cloud Active
-      </span>
-      <button onclick="reseedGraph()" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 border border-slate-700 transition">
-        <i class="fa-solid fa-rotate mr-1"></i> Reseed Graph
-      </button>
     </div>
   </header>
 
-  <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
-    
-    <div class="lg:col-span-7 flex flex-col space-y-4">
-      <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl flex flex-col flex-1">
-        <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
-          <div class="flex items-center space-x-2">
-            <i class="fa-solid fa-diagram-project text-indigo-400"></i>
-            <span class="font-semibold text-sm">Live Knowledge Graph (FalkorDB)</span>
+  <main>
+    <section class="hero_wrap" id="hero">
+      <div class="u-container">
+        <div class="hero_grid">
+          
+          <div class="hero-content">
+            <div class="hero-status-pill">
+              <span>Track 01 &bull; Agents That Act on Connected Data</span>
+            </div>
+
+            <h1 class="hero-title">
+              Autonomous fraud investigation driven by <span class="accent-link">connected graphs</span>.
+            </h1>
+
+            <p class="hero-desc">
+              Traditional AML models examine transactions in isolation. SentinelGraph navigates 4-hop money laundering paths, catches circular smurfing, and unmasks hidden infrastructure across FalkorDB in real time.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#console" class="btn btn-primary">
+                <span>Open Intelligence Console</span>
+                <span class="btn-icon">&rarr;</span>
+              </a>
+              <a href="#architecture" class="btn btn-secondary">
+                <span>View Graph Architecture</span>
+              </a>
+            </div>
           </div>
-          <div class="flex items-center space-x-4 text-xs font-mono">
-            <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 mr-1.5"></span>Account</span>
-            <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-red-500 mr-1.5"></span>Frozen</span>
-            <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 mr-1.5"></span>Person</span>
-            <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1.5"></span>Company</span>
-            <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-purple-500 mr-1.5"></span>Device</span>
+
+          <aside class="hero-aside">
+            <div class="hero-manifesto-card">
+              <span class="manifesto-tag">FalkorDB Context Engine</span>
+              <p class="manifesto-quote">
+                &ldquo;The graph cannot sit on the side. Every decision, hypothesis, and quarantine action is shaped by traversing live relations.&rdquo;
+              </p>
+              <div class="manifesto-meta">
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; color: var(--swatch--slate-light);">Graph Engine: FalkorDB AWS ap-south-1</span>
+              </div>
+            </div>
+
+            <div class="hero-stats-row">
+              <div class="stat-item">
+                <div class="stat-value">1..4</div>
+                <div class="stat-label">Hops Traversed</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Cypher Driven</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">0ms</div>
+                <div class="stat-label">Memory Loss</div>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="editorial-rule"></div>
+
+    <section class="studio-dashboard" id="console">
+      <div class="u-container">
+        <div style="margin-bottom: 2.5rem;">
+          <span class="manifesto-tag">Live Operations</span>
+          <h2 style="font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 2.75rem); color: var(--swatch--slate-dark); font-weight: 400; line-height: 1.15;">
+            Autonomous Graph Investigation Console
+          </h2>
+        </div>
+
+        <div class="console-grid">
+          
+          <div class="graph-card-wrapper">
+            <div class="graph-header">
+              <div style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--swatch--slate-dark); font-weight: 600;">
+                FalkorDB Visual Topology
+              </div>
+              <div class="legend-pills">
+                <span class="legend-pill"><span class="legend-swatch" style="background: #faf9f5; border-color: #5e5d59;"></span>Account</span>
+                <span class="legend-pill"><span class="legend-swatch" style="background: #d97757; border-color: #c6613f;"></span>Frozen</span>
+                <span class="legend-pill"><span class="legend-swatch" style="background: #ced6bf; border-color: #3d3d3a;"></span>Person</span>
+                <span class="legend-pill"><span class="legend-swatch" style="background: #bcd1ca; border-color: #629987;"></span>Company</span>
+                <span class="legend-pill"><span class="legend-swatch" style="background: #e8e6dc; border-color: #d97757;"></span>Device</span>
+              </div>
+            </div>
+
+            <div id="graph-canvas">
+              <div id="graph-loader" class="loader-overlay" style="display: none;">
+                <div class="loader-spinner"></div>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--swatch--slate-medium);">Traversing graph topology...</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-panel">
+            
+            <div class="editorial-card">
+              <span class="card-label">Inbound AML Anomaly Dispatch</span>
+              <textarea id="alert-input" rows="4" class="alert-textarea">CRITICAL ANOMALY ALERT: Account ACC-100 (Acme Corp Payroll) experienced rapid unauthorized outbound fund dispersal totaling over $140,000 across multiple unfamiliar accounts within 15 minutes. Investigate the fund destination, detect if this is a coordinated money-laundering syndicate, uncover shared infrastructure or beneficial owners, and take quarantine action if warranted.</textarea>
+              
+              <button id="run-btn" onclick="triggerInvestigation()" class="btn btn-primary" style="width: 100%; margin-top: 1rem; border-radius: var(--radius-sm);">
+                <span>Launch Autonomous Graph Investigation</span>
+                <span class="btn-icon">&rarr;</span>
+              </button>
+            </div>
+
+            <div class="editorial-card">
+              <span class="card-label">Agent Graph Tool Executions</span>
+              <div id="agent-steps" class="steps-log">
+                <div style="color: var(--swatch--slate-light); font-style: italic; padding: 0.5rem 0;">
+                  Awaiting dispatch. Click button above to initiate multi-turn graph reasoning.
+                </div>
+              </div>
+            </div>
+
+            <div class="editorial-card">
+              <span class="card-label">Explainable Audit Dossier</span>
+              <div id="dossier-container" class="dossier-box">
+                No investigation executed yet.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="editorial-rule"></div>
+
+    <section class="section_wrap" id="architecture" style="padding: clamp(3rem, 6vw, 5rem) 0;">
+      <div class="u-container">
+        <div style="margin-bottom: 2.5rem;">
+          <span class="manifesto-tag">Architectural Schema</span>
+          <h2 style="font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 2.75rem); color: var(--swatch--slate-dark); font-weight: 400; line-height: 1.15;">
+            FalkorDB Property Graph Modeling
+          </h2>
+          <p style="color: var(--swatch--slate-medium); margin-top: 0.75rem; max-width: 60ch;">
+            Nodes represent entities while edges represent verified financial, corporate, and digital interactions.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+          <div class="editorial-card" style="background-color: var(--swatch--ivory-light);">
+            <div style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--swatch--slate-dark); margin-bottom: 0.5rem;">(:Account)</div>
+            <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--swatch--slate-light); line-height: 1.7;">
+              id, owner, balance, risk_score, status, freeze_reason, quarantined_at
+            </p>
+          </div>
+          <div class="editorial-card" style="background-color: var(--swatch--ivory-light);">
+            <div style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--swatch--slate-dark); margin-bottom: 0.5rem;">(:Person) & (:Company)</div>
+            <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--swatch--slate-light); line-height: 1.7;">
+              name, jurisdiction, flagged_pep, beneficial_ownership_percentages
+            </p>
+          </div>
+          <div class="editorial-card" style="background-color: var(--swatch--ivory-light);">
+            <div style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--swatch--slate-dark); margin-bottom: 0.5rem;">(:Device) & Infrastructure</div>
+            <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--swatch--slate-light); line-height: 1.7;">
+              ip_address, mac_hash, user_agent (TorBrowser/Exit node fingerprints)
+            </p>
           </div>
         </div>
-        <div id="graph-canvas" class="flex-1 w-full relative">
-          <div id="graph-loader" class="absolute inset-0 flex items-center justify-center bg-slate-900/80 z-10 hidden">
-            <i class="fa-solid fa-circle-notch fa-spin text-3xl text-indigo-500"></i>
+      </div>
+    </section>
+
+    <div class="editorial-rule"></div>
+
+    <section class="section_wrap" id="algorithms" style="padding: clamp(3rem, 6vw, 5rem) 0;">
+      <div class="u-container">
+        <div style="margin-bottom: 2.5rem;">
+          <span class="manifesto-tag">Cypher Reasoning Core</span>
+          <h2 style="font-family: var(--font-serif); font-size: clamp(2rem, 3.5vw, 2.75rem); color: var(--swatch--slate-dark); font-weight: 400; line-height: 1.15;">
+            Graph Algorithms Exposed as Agent Tools
+          </h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+          <div class="editorial-card">
+            <span class="card-label">1. Multi-Hop Outbound Traversal</span>
+            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH path = (start:Account {id: $acc})-[:TRANSFERRED*1..4]->(dest:Account)
+RETURN [n in nodes(path) | n.id] AS path, length(path) AS hops</pre>
+          </div>
+          <div class="editorial-card">
+            <span class="card-label">2. Circular Kickback Detection</span>
+            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH path = (a:Account {id: $acc})-[:TRANSFERRED*2..5]->(a)
+RETURN [n in nodes(path) | n.id] AS cycle, length(path) AS loop</pre>
+          </div>
+          <div class="editorial-card">
+            <span class="card-label">3. Active FalkorDB Quarantine</span>
+            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH (a:Account) WHERE a.id IN $targets
+SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
           </div>
         </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="border-top: 1px solid var(--swatch--slate-faded-20); padding: 3rem 0; background-color: var(--swatch--ivory-medium);">
+    <div class="u-container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span class="brand-symbol" style="width: 18px; height: 18px;">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.5L2.5 21.5H21.5L12 2.5ZM12 7.2L17.8 19H6.2L12 7.2Z" fill="currentColor"/>
+            <circle cx="12" cy="14" r="2.2" fill="var(--swatch--clay)"/>
+          </svg>
+        </span>
+        <span style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--swatch--slate-dark);">SentinelGraph</span>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--swatch--slate-light);">
+        Graph Hacks &bull; Track 01 Submission &bull; Powered by FalkorDB
       </div>
     </div>
-
-    <div class="lg:col-span-5 flex flex-col space-y-4">
-      
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-mono uppercase tracking-wider text-rose-400 font-bold flex items-center">
-            <i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Inbound AML Trigger
-          </span>
-          <span class="text-xs text-slate-500 font-mono">ID: AML-9941</span>
-        </div>
-        <textarea id="alert-input" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 font-mono focus:outline-none focus:border-indigo-500 h-24 resize-none">CRITICAL ANOMALY ALERT: Account ACC-100 (Acme Corp Payroll) experienced rapid unauthorized outbound fund dispersal totaling over $140,000 across multiple unfamiliar accounts within 15 minutes. Investigate the fund destination, detect if this is a coordinated money-laundering syndicate, uncover shared infrastructure or beneficial owners, and take quarantine action if warranted.</textarea>
-        
-        <button id="run-btn" onclick="triggerInvestigation()" class="mt-3 w-full py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium text-sm shadow-lg shadow-indigo-500/25 transition flex items-center justify-center space-x-2">
-          <i class="fa-solid fa-robot"></i>
-          <span>Launch Autonomous Graph Investigation</span>
-        </button>
-      </div>
-
-      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl flex-1 flex flex-col">
-        <h3 class="text-xs font-mono uppercase tracking-wider text-slate-400 mb-3 flex items-center">
-          <i class="fa-solid fa-brain mr-2 text-indigo-400"></i> Agent Graph Tool Executions
-        </h3>
-        
-        <div id="agent-steps" class="flex-1 space-y-2.5 overflow-y-auto max-h-60 pr-1 text-xs font-mono">
-          <div class="text-slate-500 italic p-3 bg-slate-950 rounded border border-slate-800/60">
-            Agent idle. Click "Launch Autonomous Graph Investigation" to begin multi-hop graph analysis.
-          </div>
-        </div>
-
-        <h3 class="text-xs font-mono uppercase tracking-wider text-emerald-400 mt-4 mb-2 flex items-center">
-          <i class="fa-solid fa-file-shield mr-2"></i> Explainable Audit Dossier
-        </h3>
-        <div id="dossier-container" class="bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 overflow-y-auto max-h-64 whitespace-pre-wrap font-mono leading-relaxed">
-          No audit dossier generated yet.
-        </div>
-      </div>
-
-    </div>
-  </div>
+  </footer>
 
   <script>
     let network = null;
 
     async function loadGraph() {
-      document.getElementById('graph-loader').classList.remove('hidden');
+      const loader = document.getElementById('graph-loader');
+      if (loader) loader.style.display = 'flex';
       try {
         const res = await fetch('/api/graph');
         const data = await res.json();
@@ -121,20 +445,19 @@
         const options = {
           nodes: {
             shape: 'box',
-            margin: 10,
-            font: { color: '#ffffff', face: 'monospace', size: 12 },
-            borderWidth: 2,
-            shadow: true
+            margin: 12,
+            font: { face: 'Anthropic Sans, system-ui, sans-serif', size: 12 },
+            borderWidth: 1.5,
+            shadow: { enabled: true, color: 'rgba(20, 20, 19, 0.08)', size: 4, x: 2, y: 2 }
           },
           edges: {
             arrows: { to: { enabled: true, scaleFactor: 0.8 } },
-            color: { color: '#475569', highlight: '#a855f7' },
-            font: { color: '#94a3b8', face: 'monospace', size: 10, align: 'top' },
+            font: { face: 'Anthropic Mono, monospace', size: 9, align: 'top' },
             smooth: { type: 'curvedCW', roundness: 0.15 }
           },
           physics: {
             solver: 'forceAtlas2Based',
-            forceAtlas2Based: { gravitationalConstant: -60, centralGravity: 0.01, springLength: 120 }
+            forceAtlas2Based: { gravitationalConstant: -70, centralGravity: 0.015, springLength: 130 }
           }
         };
         
@@ -142,7 +465,7 @@
       } catch (err) {
         console.error("Failed to load graph:", err);
       } finally {
-        document.getElementById('graph-loader').classList.add('hidden');
+        if (loader) loader.style.display = 'none';
       }
     }
 
@@ -162,8 +485,8 @@
       const dossierContainer = document.getElementById('dossier-container');
 
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i><span>Autonomous Reasoning In Progress...</span>`;
-      stepsContainer.innerHTML = `<div class="text-indigo-400 p-2"><i class="fa-solid fa-spinner fa-spin mr-1"></i> Navigating FalkorDB graph nodes & edges...</div>`;
+      btn.innerHTML = `<span>Autonomous Reasoning In Progress...</span>`;
+      stepsContainer.innerHTML = `<div style="color: var(--swatch--clay); padding: 0.5rem 0;">Traversing FalkorDB graph nodes & edges...</div>`;
       dossierContainer.innerText = "Investigating...";
 
       try {
@@ -177,13 +500,15 @@
         stepsContainer.innerHTML = '';
         data.steps.forEach((s, idx) => {
           const stepEl = document.createElement('div');
-          stepEl.className = 'p-2.5 bg-slate-950 border border-indigo-900/40 rounded';
+          stepEl.className = 'step-item';
           stepEl.innerHTML = `
-            <div class="flex items-center justify-between text-indigo-300 font-bold mb-1">
-              <span>Step ${idx+1}: <span class="text-pink-400">${s.tool}</span></span>
-              <span class="text-emerald-400 text-[10px]"><i class="fa-solid fa-check"></i> Executed</span>
+            <div class="step-header">
+              <span>Step ${idx+1}: <span class="step-tag">${s.tool}</span></span>
+              <span style="color: var(--swatch--mineral); font-size: 0.6875rem;">Executed</span>
             </div>
-            <div class="text-[10px] text-slate-400 truncate">Args: ${JSON.stringify(s.args)}</div>
+            <div style="font-size: 0.6875rem; color: var(--swatch--slate-light); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              Args: ${JSON.stringify(s.args)}
+            </div>
           `;
           stepsContainer.appendChild(stepEl);
         });
@@ -193,10 +518,10 @@
         loadGraph();
 
       } catch (e) {
-        stepsContainer.innerHTML = `<div class="text-rose-400 p-2">Error during investigation: ${e}</div>`;
+        stepsContainer.innerHTML = `<div style="color: var(--swatch--clay); padding: 0.5rem 0;">Error during investigation: ${e}</div>`;
       } finally {
         btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-robot"></i><span>Launch Autonomous Graph Investigation</span>`;
+        btn.innerHTML = `<span>Launch Autonomous Graph Investigation</span><span class="btn-icon">&rarr;</span>`;
       }
     }
 

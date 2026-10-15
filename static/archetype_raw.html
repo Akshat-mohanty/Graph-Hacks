@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARCHETYPE — Frontier Web Design & Engineering Studio</title>
+  <meta name="description" content="An elite digital studio crafting bespoke, editorial-grade web experiences and digital products for frontier companies and discerning brands.">
+  <link rel="stylesheet" href="css/styles.css?v=13">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23d97757' d='M12 2L2 22h20L12 2zm0 4.5l6.5 13.5h-13L12 6.5z'/%3E%3C/svg%3E">
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  </script>
+</head>
+<body>
+
+  <!-- Sticky Editorial Header -->
+  <header class="site-header" id="header">
+    <div class="u-container">
+      <div class="header-inner">
+        <!-- Brand Wordmark with Anthropic Collapsing Interaction -->
+        <a href="#hero" class="brand-mark" aria-label="Archetype Web Studio Home">
+          <span class="brand-symbol" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.5L2.5 21.5H21.5L12 2.5ZM12 7.2L17.8 19H6.2L12 7.2Z" fill="currentColor"/>
+              <circle cx="12" cy="14" r="2.2" fill="var(--swatch--clay)"/>
+            </svg>
+          </span>
+          <span class="brand-text">
+            <span class="brand-initial">A</span><span class="brand-remainder">rchetype</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="nav-container" aria-label="Primary Navigation">
+          <ul class="nav-menu">
+            <li><a href="#work" class="nav-link">Selected Work</a></li>
+            <li><a href="#capabilities" class="nav-link">Capabilities</a></li>
+            <li><a href="#process" class="nav-link">Methodology</a></li>
+            <li><a href="#philosophy" class="nav-link">Philosophy</a></li>
+            <li><a href="#contact" class="nav-link">Inquiries</a></li>
+          </ul>
+        </nav>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+          <a href="#contact" class="btn btn-primary">
+            <span>Start a Project</span>
+            <span class="btn-icon" aria-hidden="true">↗</span>
+          </a>
+          <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Surface -->
+  <main id="main">
+
+    <!-- Hero Section (Strictly inspired by Anthropic's Editorial Architecture) -->
+    <section class="hero_wrap" id="hero">
+      <div class="u-container">
+        <div class="hero_grid">
+          
+          <!-- Left Column: Editorial Headline & Actions -->
+          <div class="hero-content">
+            <h1 class="hero-title">
+              Web design and <a href="#capabilities" class="accent-link">engineering</a> that define the frontier.
+            </h1>
+
+            <p class="hero-desc">
+              We partner with visionary founders, frontier technology teams, and discerning brands to design and engineer iconic, ultra-performant digital flagships that command market leadership.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#work" class="btn btn-primary">
+                <span>Explore Selected Work</span>
+                <span class="btn-icon" aria-hidden="true">↓</span>
+              </a>
+              <a href="#contact" class="btn btn-secondary">
+                <span>Schedule Consultation</span>
+                <span class="btn-icon" aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Manifesto Card & Proven Metrics -->
+          <div class="hero-aside">
+            <div class="hero-manifesto-card">
+              <span class="manifesto-tag">Studio Manifesto</span>
+              <p class="manifesto-quote">
+                "The web is a tactile, living medium. True craft rejects ephemeral template trends in pursuit of timeless typography, extreme performance, and purposeful interaction."
+              </p>
+              <div class="manifesto-meta">
+                <span>Senior Partners &amp; Engineers</span>
+                <span>Mumbai, India</span>
+              </div>
+            </div>
+
+            <div class="hero-stats-row">
+              <div class="stat-item">
+                <div class="stat-value">99.8%</div>
+                <div class="stat-label">Core Web Vitals</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">48+</div>
+                <div class="stat-label">Flagships Launched</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">0%</div>
+                <div class="stat-label">Framework Bloat</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <hr class="editorial-rule">
+
+    <!-- Section 1: Selected Work & Digital Flagships -->
+    <section class="section-space" id="work">
+      <div class="u-container">
+        
+        <div class="section-header">
+          <h2 class="section-title">Selected Work &amp; Digital Flagships</h2>
+          <p class="section-subtitle">
+            A curated index of bespoke web applications, editorial platforms, and design systems engineered for frontier brands.
+          </p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="work-controls">
+          <div class="filter-group" role="tablist" aria-label="Filter work by discipline">
+            <button class="filter-btn active" data-filter="all">All Work</button>
+            <button class="filter-btn" data-filter="hospitality">Luxury Hospitality</button>
+            <button class="filter-btn" data-filter="conservation">Wilderness &amp; Conservation</button>
+            <button class="filter-btn" data-filter="alpine">Alpine Heritage</button>
+          </div>
+          <div class="work-counter">
+            <span>Showing 3 Featured Engagements</span>
+          </div>
+        </div>
+
+        <!-- Monumental Spotlight Feature: Tengile River Lodge -->
+        <article class="work-spotlight" data-category="hospitality conservation" data-modal="tengile">
+          <div class="spotlight-visual">
+            <img src="assets/images/tengile-river-lodge.jpg" alt="Tengile River Lodge architectural pavilion nestled under illuminated riverine leadwood tree at dusk" loading="lazy">
+          </div>
+          <div class="spotlight-info">
+            <h3 class="spotlight-title">Tengile River Lodge &mdash; Sanctuary of Wilderness &amp; Architectural Calm</h3>
+            <p class="spotlight-desc">
+              Digital flagship and reservation experience engineered for MalaMala's ultra-luxury safari sanctuary on the Sand River. Crafted with quiet editorial typography, sub-second global edge routing, and an unhurried digital flow honoring the tranquility of the African bush.
+            </p>
+            <div class="spotlight-metrics">
+              <div class="metric-item">
+                <span class="metric-val">+310%</span>
+                <span class="metric-lbl">Direct Inquiries</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-val">0.42s</span>
+                <span class="metric-lbl">Largest Contentful Paint</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-val">99.9%</span>
+                <span class="metric-lbl">Global Availability</span>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-primary open-case-study" data-case="tengile">
+                <span>View Full Case Study</span>
+                <span class="btn-icon" aria-hidden="true">↗</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2-Column Work Ledger Grid -->
+        <div class="work-grid">
+          
+          <!-- Card 1: Schlosshotel Lebenberg Kitzbühel -->
+          <article class="work-card" data-category="hospitality alpine" data-modal="schlosshotel">
+            <div class="work-card-media">
+              <img src="assets/images/schlosshotel-kitzbuehel-web.jpg" alt="Schlosshotel Lebenberg Kitzbühel historic alpine castle and mountain golf estate overlooking the Tyrolean Alps" loading="lazy">
+            </div>
+            <div class="work-card-body">
+              <div class="work-card-meta">
+                <span class="work-card-year">2026</span>
+              </div>
+              <h3 class="work-card-title">Schlosshotel Lebenberg &mdash; Historic Alpine Manor &amp; 360° Spa</h3>
+              <p class="work-card-desc">
+                A multi-sensory digital flagship for Kitzbühel’s iconic alpine castle retreat. Uniting 400 years of aristocratic Tyrolean heritage with rooftop thermal wellness, seasonal mountain guides, and real-time chalet booking.
+              </p>
+              <div class="work-card-footer">
+                <span class="view-case-link">
+                  <span>Explore Case Study</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: MalaMala Conservation Archive -->
+          <article class="work-card" data-category="conservation" data-modal="malamala">
+            <div class="work-card-media">
+              <img src="assets/images/tengile-exterior.jpg" alt="African wild dog pack crossing the Sand River at MalaMala Game Reserve" loading="lazy">
+            </div>
+            <div class="work-card-body">
+              <div class="work-card-meta">
+                <span class="work-card-year">2026</span>
+              </div>
+              <h3 class="work-card-title">MalaMala Conservation Ledger &mdash; Real-Time Field Intelligence</h3>
+              <p class="work-card-desc">
+                An open digital archive and telemetry platform documenting four decades of wildlife preservation across 33,000 pristine acres, featuring interactive riverbed migratory maps and biodiversity chronicles.
+              </p>
+              <div class="work-card-footer">
+                <span class="view-case-link">
+                  <span>Explore Case Study</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="editorial-rule">
+
+    <!-- Section 2: Disciplines & Capabilities (Anthropic 3-Column Banner Architecture) -->
+    <section class="section-space" id="capabilities">
+      <div class="u-container">
+        
+        <div class="section-header">
+          <h2 class="section-title">Core Disciplines &amp; Capabilities</h2>
+          <p class="section-subtitle">
+            We focus exclusively on high-consequence digital flagships where design distinction, intellectual clarity, and technical speed are non-negotiable.
+          </p>
+        </div>
+
+        <div class="capabilities-grid">
+          
+          <!-- Banner 1: Oat Palette -->
+          <div class="capability-card bg-oat">
+            <div>
+              <span class="capability-tag">Discipline 01</span>
+              <h3 class="capability-title">Bespoke Web Design &amp; Art Direction</h3>
+              <p class="capability-desc">
+                Transforming brand positioning into memorable, tactile browser experiences that reject generic SaaS templates.
+              </p>
+              <ul class="capability-list">
+                <li>Editorial typography systems &amp; font licensing</li>
+                <li>Tactile layout architecture &amp; whitespace rhythm</li>
+                <li>Art-directed interactive narrative journeys</li>
+                <li>Custom 2D/3D visual asset direction</li>
+              </ul>
+            </div>
+            <div class="capability-footer">
+              <a href="#contact" class="capability-link">
+                <span>Inquire about design partnerships</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Banner 2: Cactus Palette -->
+          <div class="capability-card bg-cactus">
+            <div>
+              <span class="capability-tag">Discipline 02</span>
+              <h3 class="capability-title">High-Performance Frontend Engineering</h3>
+              <p class="capability-desc">
+                Clean, robust codebases engineered for speed, perfect responsive fluidity, and rigorous Core Web Vitals compliance.
+              </p>
+              <ul class="capability-list">
+                <li>Sub-second Time to Interactive (TTI) execution</li>
+                <li>Zero-dependency lightweight CSS &amp; JS architectures</li>
+                <li>Fluid spring animations &amp; physics-based motion</li>
+                <li>Full WCAG 2.1 AA accessibility conformance</li>
+              </ul>
+            </div>
+            <div class="capability-footer">
+              <a href="#contact" class="capability-link">
+                <span>Review engineering benchmarks</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Banner 3: Manilla Palette -->
+          <div class="capability-card bg-manilla">
+            <div>
+              <span class="capability-tag">Discipline 03</span>
+              <h3 class="capability-title">Design Systems &amp; Token Architecture</h3>
+              <p class="capability-desc">
+                Durable, self-documenting design systems that unify product design with production code for high-velocity teams.
+              </p>
+              <ul class="capability-list">
+                <li>Semantic token hierarchies (light, dark, high-contrast)</li>
+                <li>Headless, composable UI component registries</li>
+                <li>Automated visual regression testing suites</li>
+                <li>Figma variables to CSS/Tailwind automated sync</li>
+              </ul>
+            </div>
+            <div class="capability-footer">
+              <a href="#contact" class="capability-link">
+                <span>Explore system integration</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="editorial-rule">
+
+    <!-- Section 3: Methodology & Engagement Process Flow -->
+    <section class="section-space" id="process">
+      <div class="u-container">
+        
+        <div class="section-header">
+          <h2 class="section-title">The 4-Stage Frontier Sprint</h2>
+          <p class="section-subtitle">
+            A partner-led, sprint-based engagement model that eliminates agency bureaucracy and generic wireframes in favor of working code in the browser from week one.
+          </p>
+        </div>
+
+        <div class="process-grid">
+          
+          <!-- Phase 01 -->
+          <div class="process-card">
+            <div class="process-header">
+              <div class="process-step-pill">
+                <span>Phase 01</span>
+                <span class="process-time">&bull; Weeks 1–2</span>
+              </div>
+              <h3 class="process-title">Typographic Foundation &amp; Architecture</h3>
+            </div>
+            <p class="process-desc">
+              We define the visual world, license bespoke typefaces, establish information hierarchy, and set strict performance budgets before drawing a single pixel.
+            </p>
+            <div class="process-deliverable">
+              <span class="deliverable-lbl">Stage Milestone</span>
+              <span class="deliverable-val">Living browser prototype &amp; core token hierarchy</span>
+            </div>
+          </div>
+
+          <!-- Phase 02 -->
+          <div class="process-card">
+            <div class="process-header">
+              <div class="process-step-pill">
+                <span>Phase 02</span>
+                <span class="process-time">&bull; Weeks 3–4</span>
+              </div>
+              <h3 class="process-title">Tactile Prototyping &amp; Motion Design</h3>
+            </div>
+            <p class="process-desc">
+              Rapid iteration directly in high-fidelity browser environments. We engineer tactile spring physics, scroll-driven narratives, and bespoke visual assets.
+            </p>
+            <div class="process-deliverable">
+              <span class="deliverable-lbl">Stage Milestone</span>
+              <span class="deliverable-val">Fully interactive responsive staging environment</span>
+            </div>
+          </div>
+
+          <!-- Phase 03 -->
+          <div class="process-card">
+            <div class="process-header">
+              <div class="process-step-pill">
+                <span>Phase 03</span>
+                <span class="process-time">&bull; Weeks 5–6</span>
+              </div>
+              <h3 class="process-title">Zero-Bloat Production Engineering</h3>
+            </div>
+            <p class="process-desc">
+              We write clean, semantic HTML5, modular CSS variables, and lightweight vanilla interactions. No bulky runtime libraries or unnecessary abstraction layers.
+            </p>
+            <div class="process-deliverable">
+              <span class="deliverable-lbl">Stage Milestone</span>
+              <span class="deliverable-val">Clean, production-ready codebase &amp; component registry</span>
+            </div>
+          </div>
+
+          <!-- Phase 04 -->
+          <div class="process-card">
+            <div class="process-header">
+              <div class="process-step-pill">
+                <span>Phase 04</span>
+                <span class="process-time">&bull; Weeks 7–8</span>
+              </div>
+              <h3 class="process-title">Auditing, Edge Delivery &amp; Launch</h3>
+            </div>
+            <p class="process-desc">
+              Multi-device regression audits, Core Web Vitals verification (aiming for straight 100s), WCAG AA contrast review, and global CDN caching configuration.
+            </p>
+            <div class="process-deliverable">
+              <span class="deliverable-lbl">Stage Milestone</span>
+              <span class="deliverable-val">Global deployment &amp; design token governance handoff</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <hr class="editorial-rule">
+
+    <!-- Section 4: Client Perspectives & Testimonials -->
+    <section class="section-space" id="philosophy">
+      <div class="u-container">
+        
+        <div class="section-header">
+          <h2 class="section-title">Partner Perspectives &amp; Proof</h2>
+          <p class="section-subtitle">
+            We partner with leaders who view high-craft digital surfaces as their primary competitive moat.
+          </p>
+        </div>
+
+        <div class="testimonials-grid">
+          
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              &ldquo;Archetype approached our sanctuary flagship with the intellectual rigor of conservationists and the quiet aesthetic mastery of an elite editorial house. Our direct international inquiries surged within hours of launch.&rdquo;
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-name">Alastair Campbell</div>
+              <div class="author-role">Managing Director &bull; MalaMala &amp; Tengile Reserve</div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              &ldquo;Most agencies pitch generic luxury templates. Archetype captured the 400-year soul of our alpine castle with ultra-fast page speeds, breathtaking imagery, and an effortless booking flow that has transformed our direct revenue.&rdquo;
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-name">Maximilian von Traun</div>
+              <div class="author-role">General Manager &bull; Schlosshotel Lebenberg Kitzb&uuml;hel</div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card">
+            <blockquote class="testimonial-quote">
+              &ldquo;The field telemetry archive Archetype shipped is extraordinarily fast, robust, and visually poetic. Zero technical debt, 100% Core Web Vitals, and an unmistakably respectful medium for wilderness science.&rdquo;
+            </blockquote>
+            <div class="testimonial-author">
+              <div class="author-name">Dr. Sarah Lindqvist</div>
+              <div class="author-role">Director of Wildlife Research &bull; Sabi Sand Ecosystem Council</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Studio Guarantee / Quality Pledge Banner -->
+        <div class="studio-pledge">
+          <div class="pledge-content">
+            <h3>The Senior Partner Guarantee</h3>
+            <p>
+              Unlike conventional digital agencies that pitch with founders and hand off delivery to junior teams, every Archetype project is designed, engineered, and shipped directly by founding partners.
+            </p>
+          </div>
+          <div class="pledge-badges">
+            <div class="pledge-badge-item">
+              <span class="pledge-check" aria-hidden="true">&#10003;</span>
+              <span>Direct access to lead partners daily</span>
+            </div>
+            <div class="pledge-badge-item">
+              <span class="pledge-check" aria-hidden="true">&#10003;</span>
+              <span>100/100 Core Web Vitals SLA guaranteed</span>
+            </div>
+            <div class="pledge-badge-item">
+              <span class="pledge-check" aria-hidden="true">&#10003;</span>
+              <span>Full IP ownership &amp; clean code handoff</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 5: Lead Capture & Consultation Funnel -->
+    <section class="section-space" id="contact">
+      <div class="u-container">
+        
+        <div class="section-header">
+          <h2 class="section-title">Get Enquiry</h2>
+          <p class="section-subtitle">
+            We accept a strictly limited number of commissions per quarter to ensure founding partners lead every phase from discovery to launch.
+          </p>
+        </div>
+
+        <div class="contact-layout">
+          
+          <!-- Left: Direct Details & Office Meta -->
+          <div class="contact-info">
+            <div class="contact-meta-card">
+              <h3 class="contact-meta-title">Direct Partner Access</h3>
+              <p class="contact-meta-desc">
+                Inquiries are reviewed directly by founding partners. We do not employ sales representatives or account executives.
+              </p>
+
+              <ul class="contact-direct-links">
+                <li class="contact-direct-item">
+                  <span class="contact-direct-lbl">Transmission</span>
+                  <a href="mailto:akshatwork578@gmail.com" class="contact-direct-val">akshatwork578@gmail.com</a>
+                </li>
+                <li class="contact-direct-item">
+                  <span class="contact-direct-lbl">Response SLA</span>
+                  <span class="contact-direct-val">&lt; 24 Business Hours</span>
+                </li>
+                <li class="contact-direct-item">
+                  <span class="contact-direct-lbl">Studio</span>
+                  <span class="contact-direct-val">Mumbai, India</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Availability Alert -->
+            <div class="hero-manifesto-card" style="padding: 2.25rem 2rem;">
+              <span class="manifesto-tag">Commission Notice</span>
+              <p class="manifesto-quote" style="font-size: 1.15rem; margin-bottom: 0.5rem;">
+                "Currently booking select enterprise &amp; startup engagements for late Q4 and Q1 2027 delivery."
+              </p>
+            </div>
+          </div>
+
+          <!-- Right: Structured Interactive Intake Form -->
+          <div class="intake-card">
+            <form id="projectIntakeForm" action="https://formsubmit.co/akshatwork578@gmail.com" method="POST" novalidate>
+              <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+              <input type="hidden" name="_captcha" value="false">
+              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_subject" value="New Archetype Studio Enquiry">
+              
+              <!-- Scope Chips -->
+              <div class="form-group">
+                <label class="form-label" id="scopeLabel">Project Scope &amp; Focus</label>
+                <div class="chip-group" role="group" aria-labelledby="scopeLabel">
+                  <button type="button" class="chip-btn selected" data-scope="flagship">Bespoke Web Flagship</button>
+                  <button type="button" class="chip-btn" data-scope="re-arch">Frontend Re-architecture</button>
+                  <button type="button" class="chip-btn" data-scope="system">Design System &amp; Tokens</button>
+                  <button type="button" class="chip-btn" data-scope="art-dir">Full Art Direction</button>
+                </div>
+                <input type="hidden" name="scope" id="selectedScope" value="flagship">
+              </div>
+
+              <!-- Timeline Chips -->
+              <div class="form-group">
+                <label class="form-label" id="timelineLabel">Target Launch Window</label>
+                <div class="chip-group" role="group" aria-labelledby="timelineLabel">
+                  <button type="button" class="chip-btn selected" data-time="immediate">Immediate / Q4 2026</button>
+                  <button type="button" class="chip-btn" data-time="q1-2027">Q1 2027</button>
+                  <button type="button" class="chip-btn" data-time="q2-2027">Q2 2027</button>
+                </div>
+                <input type="hidden" name="timeline" id="selectedTimeline" value="immediate">
+              </div>
+
+              <!-- Name & Company Inputs -->
+              <div class="contact-inputs-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                <div>
+                  <label class="form-label" for="clientName">Your Name</label>
+                  <input type="text" id="clientName" name="name" class="form-input" placeholder="e.g. Jordan Hayes" required>
+                </div>
+                <div>
+                  <label class="form-label" for="clientOrg">Organization / Brand</label>
+                  <input type="text" id="clientOrg" name="organization" class="form-input" placeholder="e.g. Frontier Bio" required>
+                </div>
+              </div>
+
+              <!-- Email Input -->
+              <div class="form-group">
+                <label class="form-label" for="clientEmail">Work Email</label>
+                <input type="email" id="clientEmail" name="email" class="form-input" placeholder="jordan@company.com" required>
+              </div>
+
+              <!-- Project Summary Textarea -->
+              <div class="form-group">
+                <label class="form-label" for="clientMessage">Project Vision &amp; Objectives</label>
+                <textarea id="clientMessage" name="message" class="form-textarea" placeholder="Describe your product, target audience, timeline, or design challenges..." rows="3" required></textarea>
+              </div>
+
+              <!-- Form Submit Row -->
+              <div class="form-submit-row">
+                <button type="submit" class="btn btn-primary" id="submitInquiryBtn">
+                  <span>Get Inquiry</span>
+                  <span class="btn-icon" aria-hidden="true">&rarr;</span>
+                </button>
+                <span class="form-feedback" id="formStatusMsg">Partner response within 24 business hours</span>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Anthropic Multi-Column Editorial Dark Footer -->
+  <footer class="footer_wrap" id="footer">
+    <div class="u-container">
+      
+      <!-- Top Grid: Brand & Directory -->
+      <div class="footer-top-grid">
+        
+        <div class="footer-brand">
+          <div class="footer-brand-title">
+            <span class="brand-symbol" aria-hidden="true" style="color: var(--swatch--clay);">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.5L2.5 21.5H21.5L12 2.5ZM12 7.2L17.8 19H6.2L12 7.2Z" fill="currentColor"/>
+                <circle cx="12" cy="14" r="2.2" fill="var(--swatch--ivory-light)"/>
+              </svg>
+            </span>
+            <span>Archetype</span>
+          </div>
+          <p class="footer-brand-desc">
+            An elite web atelier engineering digital flagships, tactile micro-interactions, and high-performance design systems for frontier companies.
+          </p>
+        </div>
+
+        <nav class="footer-columns" aria-label="Footer Directory">
+          
+          <!-- Column 1 -->
+          <div>
+            <div class="footer-col-title">Flagships</div>
+            <ul class="footer-nav-list">
+              <li><a href="#work" class="footer-link">Tengile River Lodge</a></li>
+              <li><a href="#work" class="footer-link">Schlosshotel Lebenberg</a></li>
+              <li><a href="#work" class="footer-link">MalaMala Field Ledger</a></li>
+              <li><a href="#work" class="footer-link">Selected Work Index</a></li>
+              <li><a href="#work" class="footer-link">Client Case Archive</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 2 -->
+          <div>
+            <div class="footer-col-title">Disciplines</div>
+            <ul class="footer-nav-list">
+              <li><a href="#capabilities" class="footer-link">Bespoke Art Direction</a></li>
+              <li><a href="#capabilities" class="footer-link">Frontend Engineering</a></li>
+              <li><a href="#capabilities" class="footer-link">Design Token Systems</a></li>
+              <li><a href="#capabilities" class="footer-link">Core Web Vitals Audit</a></li>
+              <li><a href="#capabilities" class="footer-link">WebGL &amp; Spring Motion</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3 -->
+          <div>
+            <div class="footer-col-title">Atelier</div>
+            <ul class="footer-nav-list">
+              <li><a href="#hero" class="footer-link">Studio Manifesto</a></li>
+              <li><a href="#process" class="footer-link">4-Stage Sprint Flow</a></li>
+              <li><a href="#philosophy" class="footer-link">Senior Partner Guarantee</a></li>
+              <li><a href="#philosophy" class="footer-link">Partner Perspectives</a></li>
+              <li><a href="#contact" class="footer-link">Careers &amp; Fellowships</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 4 -->
+          <div>
+            <div class="footer-col-title">Inquiries</div>
+            <ul class="footer-nav-list">
+              <li><a href="#contact" class="footer-link">Commission a Flagship</a></li>
+              <li><a href="mailto:akshatwork578@gmail.com" class="footer-link">akshatwork578@gmail.com</a></li>
+              <li><a href="#contact" class="footer-link">Mumbai Studio</a></li>
+              <li><a href="#contact" class="footer-link">Press &amp; Colophon</a></li>
+            </ul>
+          </div>
+
+        </nav>
+
+      </div>
+
+      <!-- Bottom Bar: Legal, Social & Colophon -->
+      <div class="footer-bottom-bar">
+        <div class="footer-copyright">
+          &copy; 2026 Archetype Atelier PBC
+        </div>
+
+        <div class="footer-social-links" aria-label="Social Profiles">
+          <a href="https://github.com/Akshat-mohanty" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </a>
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="X / Twitter">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/akshat-mohanty/?isSelfProfile=true" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Interactive Case Study Modal -->
+  <div class="modal-overlay" id="caseStudyModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <div class="modal-content">
+      <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">&times;</button>
+      
+      <!-- Project Banner Image Header -->
+      <div class="modal-banner banner-natural" id="modalBanner">
+        <img id="modalBannerImg" class="modal-banner-main" src="assets/images/tengile-river-lodge.jpg" alt="Case study project visual" loading="eager">
+      </div>
+
+      <div class="modal-inner">
+        <h3 class="spotlight-title" id="modalTitle" style="margin-top: 0; margin-bottom: 1rem;">Case Study Title</h3>
+        <p class="spotlight-desc" id="modalDesc">Detailed overview of the engagement.</p>
+        
+        <div class="spotlight-metrics" id="modalMetrics" style="margin: 1.5rem 0;">
+          <!-- Dynamically populated -->
+        </div>
+
+        <div style="margin-top: 1.5rem;">
+          <h4 style="font-family: var(--font-serif); font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--swatch--slate-dark);">Core Deliverables</h4>
+          <ul class="capability-list" id="modalDeliverables">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; align-items: center;">
+          <a href="#contact" class="btn btn-primary" id="modalCta">
+            <span>Discuss a Similar Project</span>
+            <span class="btn-icon" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js?v=10"></script>
+</body>
+</html>
+
