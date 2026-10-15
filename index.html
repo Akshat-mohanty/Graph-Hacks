@@ -440,20 +440,38 @@ SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
             margin: 12,
             font: { face: 'Anthropic Sans, system-ui, sans-serif', size: 12 },
             borderWidth: 1.5,
-            shadow: { enabled: true, color: 'rgba(20, 20, 19, 0.08)', size: 4, x: 2, y: 2 }
+            shadow: false
           },
           edges: {
             arrows: { to: { enabled: true, scaleFactor: 0.8 } },
             font: { face: 'Anthropic Mono, monospace', size: 9, align: 'top' },
-            smooth: { type: 'curvedCW', roundness: 0.15 }
+            smooth: { type: 'continuous', roundness: 0.1 }
           },
           physics: {
-            solver: 'forceAtlas2Based',
-            forceAtlas2Based: { gravitationalConstant: -70, centralGravity: 0.015, springLength: 130 }
+            stabilization: {
+              enabled: true,
+              iterations: 150,
+              updateInterval: 25
+            },
+            barnesHut: {
+              gravitationalConstant: -2000,
+              centralGravity: 0.3,
+              springLength: 95,
+              springConstant: 0.04,
+              damping: 0.09
+            }
+          },
+          interaction: {
+            hover: true,
+            hideEdgesOnDrag: true,
+            hideEdgesOnZoom: true
           }
         };
         
         network = new vis.Network(container, graphData, options);
+        network.once('stabilizationIterationsDone', function() {
+          network.setOptions({ physics: { enabled: false } });
+        });
       } catch (err) {
         console.error("Failed to load graph:", err);
       } finally {
@@ -519,9 +537,10 @@ SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
 
     const header = document.getElementById('header');
     const hero = document.getElementById('hero');
+    let ticking = false;
 
-    const handleScroll = () => {
-      const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    const updateScroll = () => {
+      const scrollPos = window.scrollY || window.pageYOffset || 0;
       if (scrollPos > 20) {
         header.classList.add('scrolled');
       } else {
@@ -536,15 +555,22 @@ SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
       } else {
         header.classList.remove('logo-collapsed');
       }
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScroll);
+        ticking = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleScroll, { passive: true });
-    document.addEventListener('scroll', handleScroll, { passive: true });
 
     window.onload = () => {
       loadGraph();
-      handleScroll();
+      updateScroll();
     };
   </script>
 </body>
