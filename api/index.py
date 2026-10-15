@@ -10,6 +10,12 @@ from falkordb import FalkorDB
 from google import genai
 from google.genai import types
 
+import sys
+
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if base_dir not in sys.path:
+    sys.path.insert(0, base_dir)
+
 import graph_tools
 import seed_data
 
@@ -25,7 +31,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+static_dir = os.path.join(base_dir, "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 host = os.getenv("FALKORDB_HOST")
 port = int(os.getenv("FALKORDB_PORT", 53262))
