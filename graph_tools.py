@@ -5,20 +5,25 @@ from falkordb import FalkorDB
 
 load_dotenv()
 
-host = os.getenv("FALKORDB_HOST")
-port = int(os.getenv("FALKORDB_PORT", 53262))
-password = os.getenv("FALKORDB_PASSWORD")
-username = os.getenv("FALKORDB_USERNAME", "falkordb")
+_graph = None
 
-db = FalkorDB(
-    host=host,
-    port=port,
-    username=username,
-    password=password,
-    ssl=False,
-    socket_timeout=10,
-)
-graph = db.select_graph("sentinel_fraud_db")
+def get_graph():
+    global _graph
+    if _graph is None:
+        host = os.getenv("FALKORDB_HOST")
+        port = int(os.getenv("FALKORDB_PORT", "53262"))
+        password = os.getenv("FALKORDB_PASSWORD")
+        username = os.getenv("FALKORDB_USERNAME", "falkordb")
+        db = FalkorDB(
+            host=host,
+            port=port,
+            username=username,
+            password=password,
+            ssl=False,
+            socket_timeout=10,
+        )
+        _graph = db.select_graph("sentinel_fraud_db")
+    return _graph
 
 def trace_fund_flow(start_account_id: str, max_depth: int = 4) -> Dict[str, Any]:
     query = f"""
@@ -28,7 +33,7 @@ def trace_fund_flow(start_account_id: str, max_depth: int = 4) -> Dict[str, Any]
            length(path) AS hops
     ORDER BY hops ASC
     """
-    res = graph.query(query)
+    res = get_graph().query(query)
     paths = []
     for row in res.result_set:
         paths.append({
@@ -45,7 +50,7 @@ def detect_cycles(start_account_id: str, max_depth: int = 5) -> Dict[str, Any]:
            [r in relationships(path) | {{tx_id: r.tx_id, amount: r.amount}}] AS cycle_transfers,
            length(path) AS loop_length
     """
-    res = graph.query(query)
+    res = get_graph().query(query)
     cycles = []
     for row in res.result_set:
         cycles.append({
@@ -62,7 +67,7 @@ def find_shared_infrastructure(account_ids: List[str]) -> Dict[str, Any]:
     WHERE a.id IN [{acc_filter}] AND a.id <> b.id
     RETURN a.id AS account_1, b.id AS account_2, d.id AS device_id, d.ip AS ip, d.user_agent AS user_agent
     """
-    res = graph.query(query)
+    res = get_graph().query(query)
     shared_devices = []
     for row in res.result_set:
         shared_devices.append({
@@ -78,7 +83,7 @@ def find_shared_infrastructure(account_ids: List[str]) -> Dict[str, Any]:
     WHERE (a.id IN [{acc_filter}] OR b.id IN [{acc_filter}]) AND a.id <> b.id
     RETURN a.id AS account_shell, c.name AS company, p.name AS ultimate_owner, b.id AS owner_personal_account
     """
-    bo_res = graph.query(bo_query)
+    bo_res = get_graph().query(bo_query)
     beneficial_links = []
     for row in bo_res.result_set:
         beneficial_links.append({
@@ -106,7 +111,7 @@ def compute_node_risk_centrality(account_id: str) -> Dict[str, Any]:
            coalesce(sum(r_in.amount), 0) AS total_inflow,
            coalesce(sum(r_out.amount), 0) AS total_outflow
     """
-    res = graph.query(query)
+    res = get_graph().query(query)
     if not res.result_set:
         return {"error": f"Account {account_id} not found"}
     row = res.result_set[0]
@@ -134,7 +139,7 @@ def freeze_and_quarantine_syndicate(account_ids: List[str], reason: str) -> Dict
         a.quarantined_at = timestamp()
     RETURN a.id AS frozen_id, a.owner AS owner, a.status AS status
     """
-    res = graph.query(query)
+    res = get_graph().query(query)
     frozen = [{"id": r[0], "owner": r[1], "status": r[2]} for r in res.result_set]
     return {
         "action": "FREEZE_AND_QUARANTINE",
