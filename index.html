@@ -393,18 +393,50 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
           <div class="editorial-card">
             <span class="card-label">1. Multi-Hop Outbound Traversal</span>
-            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH path = (start:Account {id: $acc})-[:TRANSFERRED*1..4]->(dest:Account)
-RETURN [n in nodes(path) | n.id] AS path, length(path) AS hops</pre>
+            <div style="background: var(--swatch--ivory-light); padding: 1.15rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10); display: flex; flex-direction: column; gap: 0.6rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-weight: 600;">Fund Path</span>
+                <span style="color: var(--swatch--mineral); font-size: 0.6875rem;">1 &rarr; 4 Hops</span>
+              </div>
+              <div style="color: var(--swatch--slate-light); font-size: 0.75rem; line-height: 1.6;">
+                Victim &rarr; Mule Ring &rarr; Shell Co &rarr; Kingpin Sink
+              </div>
+              <div style="margin-top: 0.25rem; font-size: 0.6875rem; color: var(--swatch--clay);">
+                Traces layered dispersal across intermediary accounts
+              </div>
+            </div>
           </div>
+
           <div class="editorial-card">
             <span class="card-label">2. Circular Kickback Detection</span>
-            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH path = (a:Account {id: $acc})-[:TRANSFERRED*2..5]->(a)
-RETURN [n in nodes(path) | n.id] AS cycle, length(path) AS loop</pre>
+            <div style="background: var(--swatch--ivory-light); padding: 1.15rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10); display: flex; flex-direction: column; gap: 0.6rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-weight: 600;">Cycle Topology</span>
+                <span style="color: var(--swatch--clay); font-size: 0.6875rem;">Closed Loop</span>
+              </div>
+              <div style="color: var(--swatch--slate-light); font-size: 0.75rem; line-height: 1.6;">
+                Account A &rarr; Layering &rarr; Account A
+              </div>
+              <div style="margin-top: 0.25rem; font-size: 0.6875rem; color: var(--swatch--mineral);">
+                Catches smurfing loops & hidden shared Tor device IPs
+              </div>
+            </div>
           </div>
+
           <div class="editorial-card">
             <span class="card-label">3. Active FalkorDB Quarantine</span>
-            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH (a:Account) WHERE a.id IN $targets
-SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
+            <div style="background: var(--swatch--ivory-light); padding: 1.15rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.8125rem; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10); display: flex; flex-direction: column; gap: 0.6rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-weight: 600;">Autonomous Action</span>
+                <span style="color: var(--swatch--clay); font-size: 0.6875rem;">Immediate</span>
+              </div>
+              <div style="color: var(--swatch--slate-light); font-size: 0.75rem; line-height: 1.6;">
+                Flagged Nodes &rarr; Mutate Status: FROZEN
+              </div>
+              <div style="margin-top: 0.25rem; font-size: 0.6875rem; color: var(--swatch--clay);">
+                Isolates criminal syndicate with timestamped audit trail
+              </div>
+            </div>
           </div>
         </div>
       </div>
