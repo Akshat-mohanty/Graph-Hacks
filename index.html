@@ -391,20 +391,49 @@
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
-          <div class="editorial-card">
-            <span class="card-label">1. Multi-Hop Outbound Traversal</span>
-            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH path = (start:Account {id: $acc})-[:TRANSFERRED*1..4]->(dest:Account)
-RETURN [n in nodes(path) | n.id] AS path, length(path) AS hops</pre>
+          <div class="editorial-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="card-label">Topology Analysis</span>
+              <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--swatch--slate-dark); font-weight: 500; margin-bottom: 0.75rem;">
+                Multi-Hop Fund Tracking
+              </h3>
+              <p style="font-size: 0.875rem; color: var(--swatch--slate-medium); line-height: 1.65;">
+                Traces outbound capital across up to 4 degrees of separation to expose layered mule networks and pass-through aggregators.
+              </p>
+            </div>
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--swatch--slate-faded-10); font-family: var(--font-mono); font-size: 0.6875rem; color: var(--swatch--clay); text-transform: uppercase; letter-spacing: 0.04em;">
+              Dispersal &bull; Layering &bull; Sink Aggregation
+            </div>
           </div>
-          <div class="editorial-card">
-            <span class="card-label">2. Circular Kickback Detection</span>
-            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH path = (a:Account {id: $acc})-[:TRANSFERRED*2..5]->(a)
-RETURN [n in nodes(path) | n.id] AS cycle, length(path) AS loop</pre>
+
+          <div class="editorial-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="card-label">Syndicate Detection</span>
+              <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--swatch--slate-dark); font-weight: 500; margin-bottom: 0.75rem;">
+                Circular Flow & Device Links
+              </h3>
+              <p style="font-size: 0.875rem; color: var(--swatch--slate-medium); line-height: 1.65;">
+                Detects circular kickback loops and unmasks accounts secretly operating behind shared Tor IPs and beneficial owners.
+              </p>
+            </div>
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--swatch--slate-faded-10); font-family: var(--font-mono); font-size: 0.6875rem; color: var(--swatch--clay); text-transform: uppercase; letter-spacing: 0.04em;">
+              Cycle Detection &bull; Hardware Fingerprints
+            </div>
           </div>
-          <div class="editorial-card">
-            <span class="card-label">3. Active FalkorDB Quarantine</span>
-            <pre style="background: var(--swatch--ivory-light); padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem; overflow-x: auto; color: var(--swatch--slate-dark); border: 1px solid var(--swatch--slate-faded-10);">MATCH (a:Account) WHERE a.id IN $targets
-SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
+
+          <div class="editorial-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="card-label">Automated Action</span>
+              <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--swatch--slate-dark); font-weight: 500; margin-bottom: 0.75rem;">
+                Live Graph Quarantine
+              </h3>
+              <p style="font-size: 0.875rem; color: var(--swatch--slate-medium); line-height: 1.65;">
+                Autonomously freezes compromised accounts in the database and records verifiable audit timestamps for compliance.
+              </p>
+            </div>
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--swatch--slate-faded-10); font-family: var(--font-mono); font-size: 0.6875rem; color: var(--swatch--clay); text-transform: uppercase; letter-spacing: 0.04em;">
+              State Mutation &bull; Timestamped Audit Trail
+            </div>
           </div>
         </div>
       </div>
