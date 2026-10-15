@@ -6,6 +6,15 @@
   <title>SENTINELGRAPH — Autonomous Connected-Data Financial Intelligence</title>
   <meta name="description" content="Autonomous AI financial crime and fraud-investigation agent operating directly over FalkorDB connected graph data for Track 01.">
   <link rel="stylesheet" href="/static/styles.css">
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0);
+    });
+  </script>
   <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
   <style>
     .studio-dashboard {
@@ -563,6 +572,10 @@ SET a.status = 'FROZEN', a.quarantined_at = timestamp()</pre>
     window.addEventListener('resize', handleScroll, { passive: true });
 
     window.onload = () => {
+      if (window.location.hash && window.location.hash !== '#hero') {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+      window.scrollTo(0, 0);
       loadGraph();
       updateScroll();
     };
